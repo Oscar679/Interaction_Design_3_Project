@@ -1,0 +1,23 @@
+{
+  "name": "1me333_project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Oscar679/Interaction_Design_3_Project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Oscar679/Interaction_Design_3_Project/issues"
+  },
+  "homepage": "https://github.com/Oscar679/Interaction_Design_3_Project#readme",
+  "description": "",
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "tailwindcss": "^4.1.18"
+  }
+}
