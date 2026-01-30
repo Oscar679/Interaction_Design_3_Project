@@ -1,5 +1,13 @@
-class TestChart extends HTMLElement {
+import SMHIService from "../../api/SMHIService";
+
+class SMHIChart extends HTMLElement {
     connectedCallback() {
+        const smhiService = new SMHIService(1, 64510, 'latest-day');
+
+        const data = smhiService.fetchData();
+
+        console.log(data);
+
         this.innerHTML =
             `<div>
                 <canvas></canvas>
@@ -30,4 +38,4 @@ class TestChart extends HTMLElement {
     }
 }
 
-customElements.define('test-chart', TestChart);
+customElements.define('smhi-chart', SMHIChart);

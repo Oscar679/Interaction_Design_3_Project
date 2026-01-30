@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script type="module" src="./components/ui/NavBar.js"></script>
-    <script type="module" src="./components/ui/TestChart.js"></script>
+    <script type="module" src="./components/ui/SensorChart.js"></script>
+    <script type="module" src="./components/ui/SMHIChart.js"></script>
     <script type="module" src="./components/ui/ButtonGroup.js"></script>
     <script type="module" src="./components/ui/SaveButton.js"></script>
     <link rel="stylesheet" href="./src/index.css">
@@ -16,11 +17,10 @@
     <nav-bar></nav-bar>
     <div class="grid grid-cols-1 grid-rows-1 gap-10 lg:grid-cols-2 m-12">
         <div class="bg-gray-900 rounded-xl p-12 ring-1 ring-white/10 shadow-lg mt-30">
-            <test-chart></test-chart>
-
+            <sensor-chart></sensor-chart>
         </div>
         <div class="bg-gray-900 rounded-xl p-12 ring-1 ring-white/10 shadow-lg mt-30">
-            <test-chart></test-chart>
+            <smhi-chart></smhi-chart>
         </div>
         <div class="flex items-center justify-between lg:col-span-2">
             <button-group></button-group>
