@@ -1,4 +1,4 @@
-import Service from "./AbstractService"
+import Service from "./AbstractService";
 
 class SMHIService extends Service {
     constructor(parameter, station, period) {
@@ -18,7 +18,7 @@ class SMHIService extends Service {
             }
 
             const data = await response.json();
-            console.log(data);
+            return data;
         } catch (e) {
             console.error(e.message);
         }

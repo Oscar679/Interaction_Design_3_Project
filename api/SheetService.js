@@ -19,7 +19,7 @@ class SheetService extends Service {
             const json = JSON.parse(
                 text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1)
             );
-            console.log(json.table.rows);
+            return json;
         } catch (e) {
             console.error(e.message);
         }

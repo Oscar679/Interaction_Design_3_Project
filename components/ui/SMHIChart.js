@@ -1,15 +1,16 @@
 import SMHIService from "../../api/SMHIService";
 
 class SMHIChart extends HTMLElement {
-    connectedCallback() {
+    async connectedCallback() {
         const smhiService = new SMHIService(1, 64510, 'latest-day');
 
-        const data = smhiService.fetchData();
+        const data = await smhiService.fetchData();
 
-        console.log(data);
+        console.log(data.parameter['unit']);
+        console.log(data.parameter['key']);
 
         this.innerHTML =
-            `<div>
+            `<div class="relative h-96 w-full">
                 <canvas></canvas>
             </div>`;
 
@@ -17,7 +18,7 @@ class SMHIChart extends HTMLElement {
         const ctx = this.querySelector('canvas');
 
         new Chart(ctx, {
-            type: 'bar',
+            type: 'line',
             data: {
                 labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
                 datasets: [{
@@ -27,6 +28,8 @@ class SMHIChart extends HTMLElement {
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     y: {
                         beginAtZero: true

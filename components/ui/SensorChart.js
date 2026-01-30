@@ -1,16 +1,26 @@
 import SheetService from "../../api/SheetService";
 
 class SensorChart extends HTMLElement {
-    connectedCallback() {
+    async connectedCallback() {
         const sheetService = new SheetService('1EH95aGJZQTrfI6G-5Hx73yCgkbQTKzk1QX_YJ9E7Dlk', 'https://docs.google.com/spreadsheets/d/');
 
-        const data = sheetService.fetchData();
+        const data = await sheetService.fetchData();
 
         this.innerHTML =
-            `<div>
+            `<div class="relative h-96 w-full">
                 <canvas></canvas>
             </div>`;
 
+        const rows = data.table.rows;
+
+        for (let row in rows) {
+            // console.log(rows[row].c[0]); INDEX
+            // console.log(rows[row].c[1]); DATE OBJECT {f, v}
+            // console.log(rows[row].c[2]); TEMPERATURE
+            // console.log(rows[row].c[3]); HUMIDITY
+            // console.log(rows[row].c[4]); ECO2
+            // console.log(rows[row].c[5]); TVOC
+        }
 
         const ctx = this.querySelector('canvas');
 
@@ -25,6 +35,8 @@ class SensorChart extends HTMLElement {
                 }]
             },
             options: {
+                responsive: true,
+                maintainAspectRatio: false,
                 scales: {
                     y: {
                         beginAtZero: true
