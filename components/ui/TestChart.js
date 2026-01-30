@@ -2,11 +2,11 @@ class TestChart extends HTMLElement {
     connectedCallback() {
         this.innerHTML =
             `<div>
-                <canvas id="myChart"></canvas>
+                <canvas></canvas>
             </div>`;
 
 
-        const ctx = this.querySelector('#myChart');
+        const ctx = this.querySelector('canvas');
 
         new Chart(ctx, {
             type: 'bar',
