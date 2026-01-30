@@ -1,5 +1,8 @@
-class SMHIService {
+import Service from "./AbstractService"
+
+class SMHIService extends Service {
     constructor(parameter, station, period) {
+        super();
         this.parameter = parameter;
         this.station = station;
         this.period = period;

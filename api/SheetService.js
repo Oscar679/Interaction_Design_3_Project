@@ -1,5 +1,8 @@
-class SheetService {
+import Service from "./AbstractService"
+
+class SheetService extends Service {
     constructor(sheetId, url) {
+        super();
         this.sheetId = sheetId;
         this.url = url;
     }
