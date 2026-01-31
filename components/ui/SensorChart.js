@@ -1,49 +1,38 @@
 import SheetService from "../../api/SheetService";
+import ApexCharts from "apexcharts";
 
 class SensorChart extends HTMLElement {
     async connectedCallback() {
-        const sheetService = new SheetService('1EH95aGJZQTrfI6G-5Hx73yCgkbQTKzk1QX_YJ9E7Dlk', 'https://docs.google.com/spreadsheets/d/');
+        const sheetService = new SheetService('1KY8RbI8XitA0deZxgZWD2Q1kTn8qEBQyriVR0GFslXo', 'https://docs.google.com/spreadsheets/d/');
 
         const data = await sheetService.fetchData();
 
         this.innerHTML =
             `<div class="relative h-96 w-full">
-                <canvas></canvas>
+                <h2 class="text-white">Sensor Data</h2>
+                <div id="sensorChart"></div>
             </div>`;
 
         const rows = data.table.rows;
 
-        for (let row in rows) {
-            // console.log(rows[row].c[0]); INDEX
-            // console.log(rows[row].c[1]); DATE OBJECT {f, v}
-            // console.log(rows[row].c[2]); TEMPERATURE
-            // console.log(rows[row].c[3]); HUMIDITY
-            // console.log(rows[row].c[4]); ECO2
-            // console.log(rows[row].c[5]); TVOC
-        }
+        const temperature = rows.map(row => row.c[2].v);
+        const humidity = rows.map(row => row.c[3].v);
+        const eco2 = rows.map(row => row.c[4].v);
+        const tvoc = rows.map(row => row.c[5].v);
+        const labels = rows.map(row => row.c[1].f);
+        const ctx = this.querySelector('#sensorChart');
 
-        const ctx = this.querySelector('canvas');
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-                datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 1
-                }]
+        new ApexCharts(ctx, {
+            chart: {
+                type: 'line',
+                height: '100%',
             },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
+            series: [
+                { name: 'Temp', data: temperature },
+                { name: 'Humidity', data: humidity }
+            ],
+            xaxis: { categories: labels }
+        }).render();
 
     }
 }
