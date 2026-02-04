@@ -54,7 +54,10 @@ class SMHIChart extends HTMLElement {
                 { name: 'Temp', data: temperature },
                 { name: 'Humidity', data: humidity }
             ],
-            xaxis: { categories: labels }
+            xaxis: {
+                categories: labels,
+                tickAmount: 10,
+            }
         }).render();
     }
 
