@@ -3,7 +3,7 @@ import ApexCharts from "apexcharts";
 import Observable from "../Observable";
 
 class SensorChart extends HTMLElement {
-    async connectedCallback(period = 'Month') {
+    async connectedCallback(period = 'Day') {
         this.period = period;
 
         const observer = new Observable();

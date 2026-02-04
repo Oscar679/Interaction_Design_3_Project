@@ -3,7 +3,7 @@ import ApexCharts from "apexcharts";
 import Observable from "../Observable";
 
 class SMHIChart extends HTMLElement {
-    async connectedCallback(period = 'latest-months') {
+    async connectedCallback(period = 'latest-day') {
         this.period = period;
 
         const observer = new Observable();
