@@ -36,9 +36,6 @@ class SMHIChart extends HTMLElement {
             return d.toLocaleString('en-US');
         });
 
-        console.log(temperature);
-        console.log(humidity);
-
         this.innerHTML =
             `<div class="relative h-96 w-full">
                 <h2 class="text-white">SMHI Data</h2>
@@ -62,7 +59,6 @@ class SMHIChart extends HTMLElement {
     }
 
     async updatePeriod(period) {
-
         const periodMap = { Day: "latest-day", Month: "latest-months" };
         await this.renderChart(periodMap[period]);
     }

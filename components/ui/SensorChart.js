@@ -3,12 +3,38 @@ import ApexCharts from "apexcharts";
 import Observable from "../Observable";
 
 class SensorChart extends HTMLElement {
-    async connectedCallback() {
+    async connectedCallback(period = 'Month') {
+        this.period = period;
+
         const observer = new Observable();
         observer.subscribe(this);
+
+        await this.renderChart(this.period);
+    }
+
+    async renderChart(period = 'Month') {
+
         const sheetService = new SheetService('1KY8RbI8XitA0deZxgZWD2Q1kTn8qEBQyriVR0GFslXo', 'https://docs.google.com/spreadsheets/d/');
 
         const data = await sheetService.fetchData();
+
+        const now = Date.now();
+        const timestamps = {
+            Hour: now - (60 * 60 * 1000),
+            Day: now - (24 * 60 * 60 * 1000),
+            Month: now - (30 * 24 * 60 * 60 * 1000)
+        };
+
+        const timestamp = timestamps[period];
+        const rows = data.table.rows;
+
+        const filteredRows = rows.filter(row => new Date(row.c[1].f).getTime() >= timestamp);
+
+        const temperature = filteredRows.map(row => row.c[2].v);
+        const humidity = filteredRows.map(row => row.c[3].v);
+        const eco2 = filteredRows.map(row => row.c[4].v);
+        const tvoc = filteredRows.map(row => row.c[5].v);
+        const labels = filteredRows.map(row => row.c[1].f);
 
         this.innerHTML =
             `<div class="relative h-96 w-full">
@@ -16,13 +42,7 @@ class SensorChart extends HTMLElement {
                 <div id="sensorChart"></div>
             </div>`;
 
-        const rows = data.table.rows;
 
-        const temperature = rows.map(row => row.c[2].v);
-        const humidity = rows.map(row => row.c[3].v);
-        const eco2 = rows.map(row => row.c[4].v);
-        const tvoc = rows.map(row => row.c[5].v);
-        const labels = rows.map(row => row.c[1].f);
         const ctx = this.querySelector('#sensorChart');
 
         new ApexCharts(ctx, {
@@ -41,8 +61,8 @@ class SensorChart extends HTMLElement {
         }).render();
     }
 
-    async updatePeriod() {
-
+    async updatePeriod(period) {
+        await this.renderChart(period);
     }
 }
 
