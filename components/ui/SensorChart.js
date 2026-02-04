@@ -1,8 +1,11 @@
 import SheetService from "../../api/SheetService";
 import ApexCharts from "apexcharts";
+import Observable from "../Observable";
 
 class SensorChart extends HTMLElement {
     async connectedCallback() {
+        const observer = new Observable();
+        observer.subscribe(this);
         const sheetService = new SheetService('1KY8RbI8XitA0deZxgZWD2Q1kTn8qEBQyriVR0GFslXo', 'https://docs.google.com/spreadsheets/d/');
 
         const data = await sheetService.fetchData();
@@ -36,6 +39,9 @@ class SensorChart extends HTMLElement {
                 min: -30
             }
         }).render();
+    }
+
+    async updatePeriod() {
 
     }
 }

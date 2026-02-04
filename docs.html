@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="module" src="./components/ui/NavBar.js"></script>
+    <script type="module" src="./components/ui/Documentation.js"></script>
     <link rel="stylesheet" href="./src/index.css">
     <link href="./node_modules/prismjs/themes/prism-tomorrow.css" rel="stylesheet">
     <link href="./node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css" rel="stylesheet">
@@ -12,84 +13,93 @@
 
 <body class="bg-gray-950">
     <nav-bar></nav-bar>
-    <div class="m-6 max-w-[60%] mx-auto">
-        <h3 class="text-white text-xl mb-4">Documentation</h3>
-        <pre class="line-numbers rounded-lg"><code class="language-javascript">class Service {
-    constructor() {
-        if (this.constructor == Service) {
+    <docs-section>
+        <h2>Abstract Service Class</h2>
+        <div>The base class for all data services in the application. This abstract class cannot be instantiated directly and defines the contract that all service implementations must follow. It enforces the implementation of the <code>fetchData()</code> method, ensuring a consistent interface for data retrieval across different data sources.</div>
+        <template>
+            class Service {
+            constructor() {
+            if (this.constructor == Service) {
             throw new Error(`${this.constructor.name} is an abstract class and cannot be instantiated.`);
-        }
-    }
+            }
+            }
 
-    fetchData() {
-        throw new Error("Method fetchdata() must be implemented.");
-    }
-}
-export default Service;</code></pre>
-    </div>
-    <div class="m-6 max-w-[60%] mx-auto">
-        <h3 class="text-white text-xl mb-4">Documentation</h3>
-        <pre class="line-numbers rounded-lg"><code class="language-javascript">import Service from "./AbstractService"
+            fetchData() {
+            throw new Error("Method fetchdata() must be implemented.");
+            }
+            }
+            export default Service;
+        </template>
+    </docs-section>
 
-class SheetService extends Service {
-    constructor(sheetId, url) {
-        super();
-        this.sheetId = sheetId;
-        this.url = url;
-    }
+    <docs-section>
+        <h2>Sheet Service Class</h2>
+        <div>Extends the abstract Service class to fetch sensor data from Google Sheets. This service connects to a published Google Spreadsheet using the Visualization API, retrieves the raw response, and parses the JSON data containing temperature, humidity, eCO2, and TVOC readings from the connected sensors.</div>
+        <template>
+            import Service from "./AbstractService"
 
-    async fetchData() {
-        const url = `${this.url}${this.sheetId}/gviz/tq?tqx=out:json`;
-        try {
+            class SheetService extends Service {
+            constructor(sheetId, url) {
+            super();
+            this.sheetId = sheetId;
+            this.url = url;
+            }
+
+            async fetchData() {
+            const url = `${this.url}${this.sheetId}/gviz/tq?tqx=out:json`;
+            try {
             const response = await fetch(url);
             if (!response.ok) {
-                throw new Error(`Response Status: ${response.status}`);
+            throw new Error(`Response Status: ${response.status}`);
             }
 
             const text = await response.text();
             const json = JSON.parse(
-                text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1)
+            text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1)
             );
             return json;
-        } catch (e) {
+            } catch (e) {
             console.error(e.message);
-        }
-    }
-}
+            }
+            }
+            }
 
-export default SheetService;</code></pre>
-    </div>
-    <div class="m-6 max-w-[60%] mx-auto">
-        <h3 class="text-white text-xl mb-4">Documentation</h3>
-        <pre class="line-numbers rounded-lg"><code class="language-javascript">import Service from "./AbstractService";
+            export default SheetService;
+        </template>
+    </docs-section>
+    <docs-section>
+        <h2>SMHI Service Class</h2>
+        <div>Extends the abstract Service class to fetch official weather data from SMHI (Swedish Meteorological and Hydrological Institute) Open Data API. Configurable with parameters for measurement type, weather station, and time period. Used to retrieve temperature and humidity data for comparison with local sensor readings.</div>
+        <template>
+            import Service from "./AbstractService";
+            class SMHIService extends Service {
+            constructor(parameter, station, period) {
+            super();
+            this.parameter = parameter;
+            this.station = station;
+            this.period = period;
+            }
 
-class SMHIService extends Service {
-    constructor(parameter, station, period) {
-        super();
-        this.parameter = parameter;
-        this.station = station;
-        this.period = period;
-    }
+            async fetchData() {
+            const url = `https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/${this.parameter}/station/${this.station}/period/${this.period}/data.json`;
 
-    async fetchData() {
-        const url = `https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/${this.parameter}/station/${this.station}/period/${this.period}/data.json`;
-
-        try {
+            try {
             const response = await fetch(url);
             if (!response.ok) {
-                throw new Error(`Response Status: ${response.status}`);
+            throw new Error(`Response Status: ${response.status}`);
             }
 
             const data = await response.json();
             return data;
-        } catch (e) {
+            } catch (e) {
             console.error(e.message);
-        }
-    }
-}
+            }
+            }
+            }
 
-export default SMHIService;</code></pre>
-    </div>
+            export default SMHIService;
+        </template>
+    </docs-section>
     <!-- Prism.js scripts -->
     <script src="./node_modules/prismjs/prism.js"></script>
     <script src="./node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js"></script>

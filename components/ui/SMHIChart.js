@@ -1,13 +1,24 @@
 import SMHIService from "../../api/SMHIService";
 import ApexCharts from "apexcharts";
+import Observable from "../Observable";
 
 class SMHIChart extends HTMLElement {
-    async connectedCallback() {
-        const smhiServiceTemp = new SMHIService(1, 64510, 'latest-months');
+    async connectedCallback(period = 'latest-months') {
+        this.period = period;
+
+        const observer = new Observable();
+        observer.subscribe(this);
+
+        await this.renderChart(this.period);
+    }
+
+    async renderChart(period) {
+        this.period = period;
+        const smhiServiceTemp = new SMHIService(1, 64510, this.period);
         const tempData = await smhiServiceTemp.fetchData();
         const START_DATE = new Date('2026-01-31T10:31:00');
 
-        const smhiServiceHum = new SMHIService(6, 64510, 'latest-months');
+        const smhiServiceHum = new SMHIService(6, 64510, this.period);
         const humData = await smhiServiceHum.fetchData();
 
         const tempRows = tempData.value;
@@ -48,6 +59,12 @@ class SMHIChart extends HTMLElement {
             ],
             xaxis: { categories: labels }
         }).render();
+    }
+
+    async updatePeriod(period) {
+
+        const periodMap = { Day: "latest-day", Month: "latest-months" };
+        await this.renderChart(periodMap[period]);
     }
 }
 
