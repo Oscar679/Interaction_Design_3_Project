@@ -31,7 +31,10 @@ class SensorChart extends HTMLElement {
                 { name: 'Temp', data: temperature },
                 { name: 'Humidity', data: humidity }
             ],
-            xaxis: { categories: labels }
+            xaxis: { categories: labels },
+            yaxis: {
+                min: -30
+            }
         }).render();
 
     }
