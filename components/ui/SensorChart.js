@@ -13,7 +13,7 @@ class SensorChart extends HTMLElement {
     }
 
     async renderChart(period = 'Month') {
-
+        this.period = period;
         const sheetService = new SheetService('1KY8RbI8XitA0deZxgZWD2Q1kTn8qEBQyriVR0GFslXo', 'https://docs.google.com/spreadsheets/d/');
 
         const data = await sheetService.fetchData();

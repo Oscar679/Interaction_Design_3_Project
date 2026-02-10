@@ -23,6 +23,11 @@ class Observable {
         this.charts.forEach((chart) => chart.updatePeriod(period));
 
     }
+
+    refresh() {
+        console.log('in refresh');
+        return Promise.all(this.charts.map(chart => chart.renderChart(chart.period)));
+    }
 }
 
 export default Observable;
