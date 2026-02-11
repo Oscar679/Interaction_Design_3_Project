@@ -10,6 +10,8 @@
     <script type="module" src="./components/ui/ButtonGroup.js"></script>
     <script type="module" src="./components/ui/RefreshButton.js"></script>
     <script type="module" src="./components/ui/PageLoader.js"></script>
+    <script type="module" src="./components/ui/AvgSensorTemp.js"></script>
+    <script type="module" src="./components/ui/AvgSmhiTemp.js"></script>
     <link rel="stylesheet" href="./src/index.css">
     <title>Document</title>
 </head>
@@ -17,11 +19,19 @@
 <body class="bg-gray-950">
     <page-loader></page-loader>
     <nav-bar></nav-bar>
+    <div class="grid grid-cols-1 gap-6 m-12 md:grid-cols-2">
+        <div class="bg-gray-900 rounded-xl p-12 ring-1 ring-white/10 shadow-lg w-fit">
+            <avg-temperature></avg-temperature>
+        </div>
+        <div class="bg-gray-900 rounded-xl p-12 ring-1 ring-white/10 shadow-lg w-fit md:ml-auto">
+            <avg-smhi-temperature></avg-smhi-temperature>
+        </div>
+    </div>
     <div class="grid grid-cols-1 grid-rows-1 gap-10 lg:grid-cols-2 m-12">
-        <div class="bg-gray-900 rounded-xl p-12 ring-1 ring-white/10 shadow-lg mt-30">
+        <div class="bg-gray-900 rounded-xl p-12 ring-1 ring-white/10 shadow-lg mt-10">
             <sensor-chart></sensor-chart>
         </div>
-        <div class="bg-gray-900 rounded-xl p-12 ring-1 ring-white/10 shadow-lg mt-30">
+        <div class="bg-gray-900 rounded-xl p-12 ring-1 ring-white/10 shadow-lg mt-10">
             <smhi-chart></smhi-chart>
         </div>
         <div class="flex items-center justify-between lg:col-span-2">

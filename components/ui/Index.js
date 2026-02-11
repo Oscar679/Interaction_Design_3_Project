@@ -13,7 +13,7 @@ class Index extends HTMLElement {
             <p class="mt-8 text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">We Have Collected Weather Data from Campus, Växjö Which We Compare to Weather Reporting Apps and Services.</p>
             <!-- Hero calls to actions. -->
             <div class="mt-10 flex items-center justify-center gap-x-6">
-                <a href="./dashboard.html" class="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Start Comparing</a>
+                <a href="./dashBoard.html" class="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Start Comparing</a>
                 <a href="./info.html" class="text-sm/6 font-semibold text-white">Project Info <span aria-hidden="true">→</span></a>
             </div>
         </div>

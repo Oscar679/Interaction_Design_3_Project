@@ -1,6 +1,12 @@
 import Observable from "../Observable";
+import LocalStorage from "./LocalStorage";
 
 class ButtonGroup extends HTMLElement {
+  constructor() {
+    super();
+    this.store = new LocalStorage();
+  }
+
   connectedCallback() {
     this.innerHTML = `
 
@@ -16,9 +22,20 @@ class ButtonGroup extends HTMLElement {
 </div>
 `;
 
+    const buttons = this.querySelectorAll('div button');
     const observer = new Observable();
 
-    const buttons = this.querySelectorAll('div button');
+    if (this.store.getItem('period') !== null) {
+      const cachedPeriod = this.store.getItem('period');
+      buttons.forEach(button => {
+        if (button.textContent.trim() === cachedPeriod) {
+          button.classList.add('active');
+        } else {
+          button.classList.remove('active');
+        }
+      });
+    }
+
     buttons.forEach((button) =>
       button.addEventListener('click', () => {
         buttons.forEach(b =>

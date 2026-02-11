@@ -26,7 +26,15 @@ class Observable {
 
     refresh() {
         console.log('in refresh');
-        return Promise.all(this.charts.map(chart => chart.renderChart(chart.period)));
+        return Promise.all(this.charts.map(chart => {
+            if (typeof chart.renderChart === 'function') {
+                return chart.renderChart(chart.period);
+            }
+            if (typeof chart.renderTemperature === 'function') {
+                return chart.renderTemperature();
+            }
+            return Promise.resolve();
+        }));
     }
 }
 

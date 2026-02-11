@@ -21,7 +21,7 @@ class SheetService extends Service {
             );
             return json;
         } catch (e) {
-            console.error(e.message);
+            throw new Error("Failed to fetch data from Google Sheets. Please try again later.");
         }
     }
 }
