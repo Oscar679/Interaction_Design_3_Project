@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "compile": "vite build && google-closure-compiler --js dist/assets/*.js --js_output_file dist/compiled.js"
   },
   "repository": {
     "type": "git",
@@ -21,8 +22,11 @@
     "@tailwindcss/vite": "^4.1.18",
     "@tailwindplus/elements": "^1.0.22",
     "apexcharts": "^5.3.6",
-    "chart.js": "^4.5.1",
     "prismjs": "^1.30.0",
     "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "google-closure-compiler": "^20260218.0.0",
+    "vite-plugin-pwa": "^1.2.0"
   }
 }
