@@ -17,8 +17,8 @@ class NavBar extends HTMLElement {
                     </button>
                 </div>
                 <div class="flex shrink-0 items-center">
-                    <a href="/index.html">
-                        <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" class="h-8 w-auto" />
+                    <a href="/index.html" class="text-indigo-500 hover:text-indigo-400">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-thermometer-icon lucide-thermometer"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg>
                     </a>
                 </div>
                 <div class="hidden sm:flex absolute left-1/2 -translate-x-1/2">
