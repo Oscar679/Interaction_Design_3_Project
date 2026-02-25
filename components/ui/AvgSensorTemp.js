@@ -4,8 +4,9 @@ import LocalStorage from "./LocalStorage";
 import "./Alert";
 
 class AvgSensorTemp extends HTMLElement {
-    async connectedCallback(period = 'Day') {
-        this.period = period;
+    async connectedCallback() {
+        this.period = 'Day';
+        this.sheetService = new SheetService('1KY8RbI8XitA0deZxgZWD2Q1kTn8qEBQyriVR0GFslXo', 'https://docs.google.com/spreadsheets/d/');
 
         const observer = new Observable();
         observer.subscribe(this);
@@ -28,8 +29,7 @@ class AvgSensorTemp extends HTMLElement {
         this.period = cachedPeriod || this.period;
 
         try {
-            const sheetService = new SheetService('1KY8RbI8XitA0deZxgZWD2Q1kTn8qEBQyriVR0GFslXo', 'https://docs.google.com/spreadsheets/d/');
-            const data = await sheetService.fetchData();
+            const data = await this.sheetService.fetchData();
 
             const now = Date.now();
             const timestamps = {
@@ -56,7 +56,6 @@ class AvgSensorTemp extends HTMLElement {
             h2.style.display = '';
             alertBox.hide();
         } catch (e) {
-            this.querySelector('#avgTemp').innerHTML = `<p class="text-red-500 text-lg mt-4">Error: ${e.message}</p>`;
             alertBox.show(e.message);
             h2.style.display = 'none';
         }

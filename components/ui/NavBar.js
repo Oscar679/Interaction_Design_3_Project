@@ -30,16 +30,6 @@ class NavBar extends HTMLElement {
                         </div>
                     </div>
                 </div>
-                <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                    <button type="button" class="relative rounded-full p-1 text-gray-400 hover:text-white focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500 cursor-pointer">
-                        <span class="absolute -inset-1.5"></span>
-                        <span class="sr-only">View notifications</span>
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" data-slot="icon" aria-hidden="true" class="size-7">
-                            <path d="M12 16v-4m0-4h.01M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                    </button>
-
-                </div>
             </div>
         </div>
     </nav>`;

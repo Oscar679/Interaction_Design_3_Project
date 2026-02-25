@@ -5,8 +5,9 @@ import LocalStorage from "../ui/LocalStorage";
 import "./Alert";
 
 class SensorChart extends HTMLElement {
-    async connectedCallback(period = 'Day') {
-        this.period = period;
+    async connectedCallback() {
+        this.period = 'Day';
+        this.sheetService = new SheetService('1KY8RbI8XitA0deZxgZWD2Q1kTn8qEBQyriVR0GFslXo', 'https://docs.google.com/spreadsheets/d/');
 
         const observer = new Observable();
         observer.subscribe(this);
@@ -14,7 +15,6 @@ class SensorChart extends HTMLElement {
         this.store = new LocalStorage();
 
         this.innerHTML =
-
             `
                 <alert-box></alert-box>
                 <div class="relative h-96 w-full">
@@ -25,18 +25,14 @@ class SensorChart extends HTMLElement {
         await this.renderChart(this.period);
     }
 
-    async renderChart(period = 'Month') {
+    async renderChart(period) {
         const cachedPeriod = this.store.getItem('period');
         this.period = cachedPeriod || period;
-        console.log(cachedPeriod);
         const h2 = this.querySelector('h2');
         const alertBox = this.querySelector('alert-box');
 
         try {
-            const sheetService = new SheetService('1KY8RbI8XitA0deZxgZWD2Q1kTn8qEBQyriVR0GFslXo', 'https://docs.google.com/spreadsheets/d/');
-
-
-            const data = await sheetService.fetchData();
+            const data = await this.sheetService.fetchData();
 
             const now = Date.now();
             const timestamps = {
@@ -52,8 +48,6 @@ class SensorChart extends HTMLElement {
 
             const temperature = filteredRows.map(row => row.c[2].v);
             const humidity = filteredRows.map(row => row.c[3].v);
-            //const eco2 = filteredRows.map(row => row.c[4].v);
-            //const tvoc = filteredRows.map(row => row.c[5].v);
             const labels = filteredRows.map(row => row.c[1].f);
 
             const ctx = this.querySelector('#sensorChart');
@@ -83,9 +77,8 @@ class SensorChart extends HTMLElement {
                 }
             });
 
-            h2.style.display = 'block'; // Ensure the title is visible when data is successfully rendered
-
-            alertBox.hide(); // Hide the alert box if data is successfully rendered
+            h2.style.display = 'block';
+            alertBox.hide();
 
             this.chart.render();
         } catch (e) {

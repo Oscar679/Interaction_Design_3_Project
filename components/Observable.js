@@ -13,19 +13,14 @@ class Observable {
     }
 
     subscribe(func) {
-        console.log('in subscribe');
         this.charts.push(func);
     }
 
     notify(period) {
-        console.log('in notify');
-        console.log(this.charts);
         this.charts.forEach((chart) => chart.updatePeriod(period));
-
     }
 
     refresh() {
-        console.log('in refresh');
         return Promise.all(this.charts.map(chart => {
             if (typeof chart.renderChart === 'function') {
                 return chart.renderChart(chart.period);

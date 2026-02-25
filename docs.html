@@ -17,89 +17,211 @@
     <nav-bar></nav-bar>
     <docs-section>
         <h2>Abstract Service Class</h2>
-        <div>The base class for all data services in the application. This abstract class cannot be instantiated directly and defines the contract that all service implementations must follow. It enforces the implementation of the <code>fetchData()</code> method, ensuring a consistent interface for data retrieval across different data sources.</div>
+        <div>The base class for all data services in the application. This abstract class cannot be instantiated directly and defines the contract that all service implementations must follow. It enforces the implementation of the fetchData() method, ensuring a consistent interface for data retrieval across different data sources.</div>
         <template>
-            class Service {
-            constructor() {
-            if (this.constructor == Service) {
+class Service {
+    constructor() {
+        if (this.constructor == Service) {
             throw new Error(`${this.constructor.name} is an abstract class and cannot be instantiated.`);
-            }
-            }
+        }
+    }
 
-            fetchData() {
-            throw new Error("Method fetchdata() must be implemented.");
-            }
-            }
-            export default Service;
+    fetchData() {
+        throw new Error("Method fetchdata() must be implemented.");
+    }
+}
+
+export default Service;
         </template>
     </docs-section>
 
     <docs-section>
-        <h2>Sheet Service Class</h2>
-        <div>Extends the abstract Service class to fetch sensor data from Google Sheets. This service connects to a published Google Spreadsheet using the Visualization API, retrieves the raw response, and parses the JSON data containing temperature, humidity, eCO2, and TVOC readings from the connected sensors.</div>
+        <h2>SheetService Class</h2>
+        <div>Extends the abstract Service class to fetch sensor data from a published Google Spreadsheet using the Visualization API. Parses the raw JSONP response and returns structured data containing temperature and humidity readings from the campus sensor.</div>
         <template>
-            import Service from "./AbstractService"
+import Service from "./AbstractService"
 
-            class SheetService extends Service {
-            constructor(sheetId, url) {
-            super();
-            this.sheetId = sheetId;
-            this.url = url;
-            }
+class SheetService extends Service {
+    constructor(sheetId, url) {
+        super();
+        this.sheetId = sheetId;
+        this.url = url;
+    }
 
-            async fetchData() {
-            const url = `${this.url}${this.sheetId}/gviz/tq?tqx=out:json`;
-            try {
+    async fetchData() {
+        const url = `${this.url}${this.sheetId}/gviz/tq?tqx=out:json`;
+        try {
             const response = await fetch(url);
             if (!response.ok) {
-            throw new Error(`Response Status: ${response.status}`);
+                throw new Error(`Response Status: ${response.status}`);
             }
-
             const text = await response.text();
             const json = JSON.parse(
-            text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1)
+                text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1)
             );
             return json;
-            } catch (e) {
-            console.error(e.message);
-            }
-            }
-            }
+        } catch (e) {
+            throw new Error("Failed to fetch data from Google Sheets. Please try again later.");
+        }
+    }
+}
 
-            export default SheetService;
+export default SheetService;
         </template>
     </docs-section>
+
     <docs-section>
-        <h2>SMHI Service Class</h2>
-        <div>Extends the abstract Service class to fetch official weather data from SMHI (Swedish Meteorological and Hydrological Institute) Open Data API. Configurable with parameters for measurement type, weather station, and time period. Used to retrieve temperature and humidity data for comparison with local sensor readings.</div>
+        <h2>SMHIService Class</h2>
+        <div>Extends the abstract Service class to fetch official weather data from the SMHI (Swedish Meteorological and Hydrological Institute) Open Data API. Configurable with a measurement parameter, weather station ID, and time period. Used to retrieve temperature and humidity data for comparison with local sensor readings.</div>
         <template>
-            import Service from "./AbstractService";
-            class SMHIService extends Service {
-            constructor(parameter, station, period) {
-            super();
-            this.parameter = parameter;
-            this.station = station;
-            this.period = period;
-            }
+import Service from "./AbstractService";
 
-            async fetchData() {
-            const url = `https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/${this.parameter}/station/${this.station}/period/${this.period}/data.json`;
+class SMHIService extends Service {
+    constructor(parameter, station, period) {
+        super();
+        this.parameter = parameter;
+        this.station = station;
+        this.period = period;
+    }
 
-            try {
+    async fetchData() {
+        const url = `https://opendata-download-metobs.smhi.se/api/version/1.0/parameter/${this.parameter}/station/${this.station}/period/${this.period}/data.json`;
+        try {
             const response = await fetch(url);
             if (!response.ok) {
-            throw new Error(`Response Status: ${response.status}`);
+                throw new Error(`Response Status: ${response.status}`);
             }
-
             const data = await response.json();
             return data;
-            } catch (e) {
-            console.error(e.message);
-            }
-            }
-            }
+        } catch (e) {
+            throw new Error("Failed to fetch data from SMHI API. Please try again later.");
+        }
+    }
+}
 
-            export default SMHIService;
+export default SMHIService;
+        </template>
+    </docs-section>
+
+    <docs-section>
+        <h2>SensorChart Class</h2>
+        <div>A Web Component that subscribes to the Observable and renders a live line chart using ApexCharts, displaying temperature and humidity readings from the campus sensor. The SheetService is instantiated once in connectedCallback and reused across renders. The selected time period is persisted via LocalStorage and restored on load.</div>
+        <template>
+class SensorChart extends HTMLElement {
+    async connectedCallback() {
+        this.period = 'Day';
+        this.sheetService = new SheetService('SHEET_ID', 'https://docs.google.com/spreadsheets/d/');
+
+        const observer = new Observable();
+        observer.subscribe(this);
+        this.store = new LocalStorage();
+
+        await this.renderChart(this.period);
+    }
+
+    async renderChart(period) {
+        const cachedPeriod = this.store.getItem('period');
+        this.period = cachedPeriod || period;
+
+        try {
+            const data = await this.sheetService.fetchData();
+            // filter rows by period, build chart...
+            this.chart = new ApexCharts(ctx, { ... });
+            this.chart.render();
+        } catch (e) {
+            alertBox.show(e.message);
+        }
+    }
+
+    async updatePeriod(period) {
+        this.store.setItem('period', period);
+        await this.renderChart(period);
+    }
+}
+
+customElements.define('sensor-chart', SensorChart);
+        </template>
+    </docs-section>
+
+    <docs-section>
+        <h2>SMHIChart Class</h2>
+        <div>A Web Component that fetches and charts official temperature and humidity data from the SMHI Open Data API. Uses a periodMap defined once in connectedCallback to translate UI period labels (Day, Month) into SMHI API period strings. Subscribes to the Observable to respond to period changes.</div>
+        <template>
+class SMHIChart extends HTMLElement {
+    async connectedCallback() {
+        this.period = 'Day';
+        this.periodMap = { Day: 'latest-day', Month: 'latest-months' };
+
+        const observer = new Observable();
+        observer.subscribe(this);
+        this.store = new LocalStorage();
+
+        await this.renderChart(this.period);
+    }
+
+    async renderChart(period) {
+        const cachedPeriod = this.store.getItem('period');
+        this.period = cachedPeriod || period;
+        const smhiPeriod = this.periodMap[this.period] || this.period;
+
+        try {
+            const smhiServiceTemp = new SMHIService(1, 64510, smhiPeriod);
+            const tempData = await smhiServiceTemp.fetchData();
+            // filter, build chart...
+            this.chart = new ApexCharts(ctx, { ... });
+            this.chart.render();
+        } catch (e) {
+            alertBox.show(e.message);
+        }
+    }
+
+    async updatePeriod(period) {
+        this.store.setItem('period', period);
+        await this.renderChart(this.periodMap[period]);
+    }
+}
+
+customElements.define('smhi-chart', SMHIChart);
+        </template>
+    </docs-section>
+
+    <docs-section>
+        <h2>Observable Class</h2>
+        <div>Implements both the Singleton and Observer design patterns. As a Singleton, only one instance exists across the application. As an Observable, it maintains a list of subscribed chart components and notifies them when the selected time period changes, or triggers a refresh of all charts simultaneously.</div>
+        <template>
+class Observable {
+    static instance;
+
+    constructor() {
+        if (Observable.instance) {
+            return Observable.instance;
+        }
+        Observable.instance = this;
+        this.charts = [];
+    }
+
+    subscribe(chart) {
+        this.charts.push(chart);
+    }
+
+    notify(period) {
+        this.charts.forEach((chart) => chart.updatePeriod(period));
+    }
+
+    refresh() {
+        return Promise.all(this.charts.map(chart => {
+            if (typeof chart.renderChart === 'function') {
+                return chart.renderChart(chart.period);
+            }
+            if (typeof chart.renderTemperature === 'function') {
+                return chart.renderTemperature();
+            }
+            return Promise.resolve();
+        }));
+    }
+}
+
+export default Observable;
         </template>
     </docs-section>
 

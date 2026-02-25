@@ -5,8 +5,9 @@ import LocalStorage from "../ui/LocalStorage";
 import "./Alert";
 
 class SMHIChart extends HTMLElement {
-    async connectedCallback(period = 'latest-day') {
-        this.period = period;
+    async connectedCallback() {
+        this.period = 'Day';
+        this.periodMap = { Day: "latest-day", Month: "latest-months" };
 
         const observer = new Observable();
         observer.subscribe(this);
@@ -27,9 +28,7 @@ class SMHIChart extends HTMLElement {
     async renderChart(period) {
         const cachedPeriod = this.store.getItem('period');
         this.period = cachedPeriod || period;
-        const periodMap = { Day: "latest-day", Month: "latest-months" };
-        const smhiPeriod = periodMap[this.period] || this.period;
-        console.log(cachedPeriod);
+        const smhiPeriod = this.periodMap[this.period] || this.period;
         const h2 = this.querySelector('h2');
         const alertBox = this.querySelector('alert-box');
 
@@ -89,8 +88,8 @@ class SMHIChart extends HTMLElement {
     }
 
     async updatePeriod(period) {
-        const periodMap = { Day: "latest-day", Month: "latest-months" };
-        await this.renderChart(periodMap[period]);
+        this.store.setItem('period', period);
+        await this.renderChart(this.periodMap[period]);
     }
 }
 

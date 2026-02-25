@@ -4,8 +4,8 @@ import LocalStorage from "../ui/LocalStorage";
 import "./Alert";
 
 class AvgSmhiTemp extends HTMLElement {
-    async connectedCallback(period = 'Day') {
-        this.period = period;
+    async connectedCallback() {
+        this.period = 'Day';
 
         const observer = new Observable();
         observer.subscribe(this);
@@ -59,7 +59,6 @@ class AvgSmhiTemp extends HTMLElement {
             h2.style.display = '';
             alertBox.hide();
         } catch (e) {
-            this.querySelector('#avgSmhiTemp').innerHTML = `<p class="text-red-500 text-lg mt-4">Error: ${e.message}</p>`;
             alertBox.show(e.message);
             h2.style.display = 'none';
         }

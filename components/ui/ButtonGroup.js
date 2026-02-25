@@ -25,8 +25,8 @@ class ButtonGroup extends HTMLElement {
     const buttons = this.querySelectorAll('div button');
     const observer = new Observable();
 
-    if (this.store.getItem('period') !== null) {
-      const cachedPeriod = this.store.getItem('period');
+    const cachedPeriod = this.store.getItem('period');
+    if (cachedPeriod !== null) {
       buttons.forEach(button => {
         if (button.textContent.trim() === cachedPeriod) {
           button.classList.add('active');
