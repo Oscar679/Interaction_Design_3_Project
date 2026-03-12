@@ -1,8 +1,6 @@
-
 class PageLoader extends HTMLElement {
     connectedCallback() {
-        this.innerHTML =
-            `
+        this.innerHTML = `
             <div class="page-loader fixed inset-0 bg-gray-950 flex items-center justify-center z-50" role="status" aria-live="polite">
                 <div class="loader"></div>
             </div>

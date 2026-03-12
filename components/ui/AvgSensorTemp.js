@@ -5,8 +5,8 @@ import "./Alert";
 
 class AvgSensorTemp extends HTMLElement {
     async connectedCallback() {
-        this.period = 'Day';
-        this.sheetService = new SheetService('1KY8RbI8XitA0deZxgZWD2Q1kTn8qEBQyriVR0GFslXo', 'https://docs.google.com/spreadsheets/d/');
+        this.period = "Day";
+        this.sheetService = new SheetService("1KY8RbI8XitA0deZxgZWD2Q1kTn8qEBQyriVR0GFslXo", "https://docs.google.com/spreadsheets/d/");
 
         const observer = new Observable();
         observer.subscribe(this);
@@ -15,14 +15,15 @@ class AvgSensorTemp extends HTMLElement {
 
         this.innerHTML = `
             <alert-box></alert-box>
-            <div class="flex items-start justify-between">
+            <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                    <p class="text-gray-400 text-xs uppercase tracking-wider">Sensor</p>
-                    <h2 class="text-white text-lg font-semibold mt-1">Average Temperature</h2>
-                    <div id="avgTemp"></div>
+                    <p class="section-kicker">Campus sensor</p>
+                    <h2 class="mt-3 text-2xl font-semibold text-white">Average temperature</h2>
+                    <p class="mt-2 text-sm leading-7 text-slate-400">Computed from the active dashboard period.</p>
+                    <div id="avgTemp" class="mt-6"></div>
                 </div>
-                <div class="rounded-lg bg-indigo-500/10 p-2.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg>
+                <div class="flex h-14 w-14 items-center justify-center rounded-[20px] border border-white/10 bg-white/[0.04] text-[var(--site-accent)]">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg>
                 </div>
             </div>
         `;
@@ -30,49 +31,59 @@ class AvgSensorTemp extends HTMLElement {
         await this.renderTemperature();
     }
 
+    getTemperatureTone(value) {
+        if (value < 0) {
+            return "text-sky-300";
+        }
+
+        if (value > 25) {
+            return "text-rose-300";
+        }
+
+        return "text-[var(--site-accent-warm)]";
+    }
+
     async renderTemperature() {
-        const h2 = this.querySelector('h2');
-        const alertBox = this.querySelector('alert-box');
-        const cachedPeriod = this.store.getItem('period');
+        const heading = this.querySelector("h2");
+        const alertBox = this.querySelector("alert-box");
+        const cachedPeriod = this.store.getItem("period");
         this.period = cachedPeriod || this.period;
 
         try {
             const data = await this.sheetService.fetchData();
-
             const now = Date.now();
             const timestamps = {
                 Hour: now - (60 * 60 * 1000),
                 Day: now - (24 * 60 * 60 * 1000),
-                Month: now - (30 * 24 * 60 * 60 * 1000)
+                Month: now - (30 * 24 * 60 * 60 * 1000),
             };
 
             const timestamp = timestamps[this.period];
             const rows = data.table.rows;
-
-            const filteredRows = rows.filter(row => new Date(row.c[1].f).getTime() >= timestamp);
-            const temperature = filteredRows.map(row => row.c[2].v);
+            const filteredRows = rows.filter((row) => new Date(row.c[1].f).getTime() >= timestamp);
+            const temperature = filteredRows.map((row) => row.c[2].v);
             const avgTemp = temperature.reduce((sum, value) => sum + value, 0) / temperature.length;
+            const formattedTemp = avgTemp.toFixed(2);
 
-            if (avgTemp.toFixed(2) < 0) {
-                this.querySelector('#avgTemp').innerHTML = `<p class="text-blue-500 text-3xl font-bold mt-3">${avgTemp.toFixed(2)}°C</p>`;
-            } else if (avgTemp.toFixed(2) > 25) {
-                this.querySelector('#avgTemp').innerHTML = `<p class="text-red-500 text-3xl font-bold mt-3">${avgTemp.toFixed(2)}°C</p>`;
-            } else {
-                this.querySelector('#avgTemp').innerHTML = `<p class="text-orange-400 text-3xl font-bold mt-3">${avgTemp.toFixed(2)}°C</p>`;
-            }
+            this.querySelector("#avgTemp").innerHTML = `
+                <div class="flex items-end gap-3">
+                    <p class="metric-value ${this.getTemperatureTone(avgTemp)} text-5xl font-semibold tracking-[-0.05em]">${formattedTemp}</p>
+                    <span class="pb-2 text-sm font-medium uppercase tracking-[0.22em] text-slate-500">Celsius</span>
+                </div>
+            `;
 
-            h2.style.display = '';
+            heading.style.display = "";
             alertBox.hide();
         } catch (e) {
             alertBox.show(e.message);
-            h2.style.display = 'none';
+            heading.style.display = "none";
         }
     }
 
     async updatePeriod(period) {
-        this.store.setItem('period', period);
+        this.store.setItem("period", period);
         await this.renderTemperature();
     }
 }
 
-customElements.define('avg-temperature', AvgSensorTemp);
+customElements.define("avg-temperature", AvgSensorTemp);

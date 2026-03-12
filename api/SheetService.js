@@ -20,7 +20,7 @@ class SheetService extends Service {
                 text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1)
             );
             return json;
-        } catch (e) {
+        } catch {
             throw new Error("Failed to fetch data from Google Sheets. Please try again later.");
         }
     }

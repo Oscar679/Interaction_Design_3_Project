@@ -1,12 +1,167 @@
 @import "tailwindcss";
 
+:root {
+    color-scheme: dark;
+    --site-panel: rgba(11, 18, 23, 0.84);
+    --site-panel-strong: rgba(10, 16, 21, 0.94);
+    --site-line: rgba(190, 207, 214, 0.12);
+    --site-line-strong: rgba(190, 207, 214, 0.2);
+    --site-text-soft: #8ea1aa;
+    --site-accent: #8fd0c6;
+    --site-accent-warm: #e0c08b;
+    --site-glow: 0 16px 40px rgba(2, 8, 12, 0.24);
+}
+
 html {
     scroll-behavior: smooth;
 }
 
+nav-bar,
+particle-canvas,
+page-loader,
+index-body,
+dashboard-page,
+documentation-page,
+docs-section {
+    display: block;
+}
+
+body {
+    background:
+        radial-gradient(circle at top left, rgba(143, 208, 198, 0.07), transparent 22rem),
+        linear-gradient(180deg, #0a1116 0%, #0b1217 50%, #0c1318 100%);
+    color: #f7fbfa;
+}
+
+body.docs-page {
+    background:
+        radial-gradient(circle at top, rgba(143, 208, 198, 0.06), transparent 22rem),
+        linear-gradient(180deg, #0a1116 0%, #0b1217 35%, #0c1318 100%);
+}
+
 .active {
-    background: linear-gradient(135deg, #6366f1, #a855f7);
-    color: white;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.08);
+    color: #f7fbfa;
+}
+
+.site-shell {
+    position: relative;
+}
+
+.site-shell::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image: linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+    background-size: 88px 88px;
+    mask-image: radial-gradient(circle at top, black, transparent 86%);
+    opacity: 0.18;
+    z-index: -2;
+}
+
+.site-panel {
+    background: var(--site-panel);
+    border: 1px solid var(--site-line);
+    box-shadow: var(--site-glow);
+    backdrop-filter: blur(14px);
+}
+
+.site-panel-strong {
+    background: var(--site-panel-strong);
+    border: 1px solid var(--site-line-strong);
+    box-shadow: var(--site-glow);
+    backdrop-filter: blur(14px);
+}
+
+.section-kicker {
+    color: var(--site-text-soft);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.metric-value {
+    font-variant-numeric: tabular-nums;
+}
+
+sensor-chart,
+smhi-chart,
+avg-temperature,
+avg-smhi-temperature,
+button-group,
+refresh-button {
+    display: block;
+    min-width: 0;
+}
+
+.apexcharts-canvas,
+.apexcharts-svg,
+.apexcharts-inner,
+.apexcharts-graphical,
+.apexcharts-xaxis,
+.apexcharts-yaxis {
+    max-width: 100% !important;
+}
+
+.apexcharts-canvas {
+    width: 100% !important;
+}
+
+.apexcharts-legend {
+    flex-wrap: wrap !important;
+    row-gap: 0.35rem;
+}
+
+.docs-page h1,
+.docs-page h2,
+.docs-page h3 {
+    text-wrap: balance;
+}
+
+.docs-page p {
+    text-wrap: pretty;
+}
+
+.docs-code-block {
+    margin: 0;
+    overflow-x: auto;
+    background: transparent;
+}
+
+.docs-code-block[class*="language-"] {
+    box-shadow: none;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.docs-code-block code[class*="language-"] {
+    font-size: 0.9rem;
+    line-height: 1.7;
+}
+
+.docs-code-block .line-numbers-rows {
+    border-right-color: rgba(255, 255, 255, 0.08);
+}
+
+.docs-code-block .line-numbers-rows>span::before {
+    color: rgba(148, 163, 184, 0.55);
+}
+
+.docs-stack>*+* {
+    margin-top: 1.5rem;
+}
+
+.docs-section-card::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.012), rgba(255, 255, 255, 0));
+    pointer-events: none;
 }
 
 .page-loader {
@@ -21,28 +176,38 @@ html {
     pointer-events: none;
 }
 
-/* HTML: <div class="loader"></div> */
 .loader {
     width: 40px;
     aspect-ratio: 1;
     border-radius: 50%;
-    background: #6366f1;
+    background: #7dd3c6;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    animation: l1 2s infinite cubic-bezier(0.3, 1, 0, 1);
-
+    animation: loader-shape 2s infinite cubic-bezier(0.3, 1, 0, 1);
     transition: opacity 3000ms ease, visibility 3000ms ease;
 }
 
-@keyframes l1 {
+@keyframes loader-shape {
     33% {
         border-radius: 0;
-        background: #a855f7;
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%)
+        background: #f3c98b;
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     }
 
     66% {
         border-radius: 0;
-        background: #818cf8;
-        clip-path: polygon(50% 0, 50% 0, 100% 100%, 0 100%)
+        background: #a7f3d0;
+        clip-path: polygon(50% 0, 50% 0, 100% 100%, 0 100%);
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .site-shell::before {
+        background-size: 56px 56px;
+        opacity: 0.22;
     }
 }

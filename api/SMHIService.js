@@ -19,7 +19,7 @@ class SMHIService extends Service {
 
             const data = await response.json();
             return data;
-        } catch (e) {
+        } catch {
             throw new Error("Failed to fetch data from SMHI API. Please try again later.");
         }
     }
