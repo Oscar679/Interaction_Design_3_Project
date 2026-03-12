@@ -18,7 +18,7 @@ class SMHIChart extends HTMLElement {
             `
             <alert-box></alert-box>
             <div class="relative h-96 w-full">
-                <h2 class="text-white">SMHI Data</h2>
+                <h2 class="text-white font-semibold">SMHI Data</h2>
                 <div id="smhiChart"></div>
             </div>`;
 
@@ -49,9 +49,12 @@ class SMHIChart extends HTMLElement {
 
             const temperature = filteredRowsTemp.map(row => row.value);
             const humidity = filteredRowsHum.map(row => row.value);
+            const isDay = this.period === 'Day';
             const labels = filteredRowsTemp.map(row => {
                 const d = new Date(row.date);
-                return d.toLocaleString('en-US');
+                return isDay
+                    ? d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+                    : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
             });
 
 
@@ -65,7 +68,12 @@ class SMHIChart extends HTMLElement {
                 chart: {
                     type: 'line',
                     height: '100%',
+                    background: 'transparent',
+                    toolbar: { show: false },
                 },
+                theme: { mode: 'dark' },
+                colors: ['#f97316', '#38bdf8'],
+                stroke: { width: 2, curve: 'smooth' },
                 series: [
                     { name: 'Temp', data: temperature },
                     { name: 'Humidity', data: humidity }
@@ -73,7 +81,21 @@ class SMHIChart extends HTMLElement {
                 xaxis: {
                     categories: labels,
                     tickAmount: 10,
-                }
+                    labels: { style: { colors: '#9ca3af' } },
+                },
+                yaxis: {
+                    labels: { style: { colors: '#9ca3af' } },
+                },
+                grid: {
+                    borderColor: 'rgba(255,255,255,0.06)',
+                    strokeDashArray: 4,
+                },
+                tooltip: {
+                    theme: 'dark',
+                },
+                legend: {
+                    labels: { colors: '#d1d5db' },
+                },
             });
 
             h2.style.display = '';

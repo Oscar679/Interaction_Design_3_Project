@@ -8,12 +8,21 @@ class Index extends HTMLElement {
     <!-- Hero header. -->
     <div class="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
         <div class="text-center">
+            <!-- Badge -->
+            <div class="mb-8 inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-4 py-1.5">
+                <span class="relative flex h-2 w-2">
+                    <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+                </span>
+                <span class="text-sm text-gray-300">Live Weather Data</span>
+            </div>
             <h1 class="text-5xl font-semibold tracking-tight text-balance text-white sm:text-7xl">Real Life Measured Data Compared to Weather Stations</h1>
             <!-- Hero text -->
-            <p class="mt-8 text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">We Have Collected Weather Data from Campus, Växjö Which We Compare to Weather Reporting Apps and Services.</p>
+            <p class="mt-8 text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">Weather data collected from Campus Växjö, compared side-by-side with official SMHI station readings.</p>
             <!-- Hero calls to actions. -->
-            <div class="mt-10 flex items-center justify-center gap-x-6">
-                <a href="./dashBoard.html" class="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">Start Comparing</a>
+            <div class="mt-10 flex items-center justify-center gap-x-4">
+                <a href="./dashBoard.html" class="rounded-md bg-linear-to-r from-indigo-500 to-purple-500 px-5 py-2.5 text-sm font-semibold text-white shadow-xs hover:from-indigo-400 hover:to-purple-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500 transition-all duration-200">Start Comparing</a>
+                <a href="./docs.html" class="rounded-md px-5 py-2.5 text-sm font-semibold text-gray-300 border border-white/15 hover:bg-white/5 hover:text-white transition-all duration-200">View Docs</a>
             </div>
         </div>
     </div>

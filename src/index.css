@@ -5,8 +5,8 @@ html {
 }
 
 .active {
-    background-color: white;
-    color: black;
+    background: linear-gradient(135deg, #6366f1, #a855f7);
+    color: white;
 }
 
 .page-loader {
@@ -26,7 +26,7 @@ html {
     width: 40px;
     aspect-ratio: 1;
     border-radius: 50%;
-    background: #f03355;
+    background: #6366f1;
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     animation: l1 2s infinite cubic-bezier(0.3, 1, 0, 1);
 
@@ -36,13 +36,13 @@ html {
 @keyframes l1 {
     33% {
         border-radius: 0;
-        background: #514b82;
+        background: #a855f7;
         clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%)
     }
 
     66% {
         border-radius: 0;
-        background: #ffa516;
+        background: #818cf8;
         clip-path: polygon(50% 0, 50% 0, 100% 100%, 0 100%)
     }
 }

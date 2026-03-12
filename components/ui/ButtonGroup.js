@@ -10,13 +10,13 @@ class ButtonGroup extends HTMLElement {
   connectedCallback() {
     this.innerHTML = `
 
-<div class="bg-gray-900 inline-flex -space-x-px rounded-md p-2">
+<div class="bg-white/5 backdrop-blur-md border border-white/10 inline-flex rounded-lg p-1 gap-1">
 
-  <button type="button" class="text-sm px-6 py-2 mx-2 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white rounded-md p-2 default: active">
+  <button type="button" class="text-sm px-5 py-1.5 cursor-pointer text-gray-400 hover:text-white rounded-md transition-all duration-200 active">
     Day
   </button>
 
-  <button type="button" class="text-sm px-6 py-2 mx-2 cursor-pointer text-gray-400 hover:bg-white/5 hover:text-white rounded-md p-2">
+  <button type="button" class="text-sm px-5 py-1.5 cursor-pointer text-gray-400 hover:text-white rounded-md transition-all duration-200">
     Month
   </button>
 </div>

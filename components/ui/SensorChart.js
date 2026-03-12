@@ -18,7 +18,7 @@ class SensorChart extends HTMLElement {
             `
                 <alert-box></alert-box>
                 <div class="relative h-96 w-full">
-                <h2 class="text-white">Sensor Data</h2>
+                <h2 class="text-white font-semibold">Sensor Data</h2>
                 <div id="sensorChart"></div>
             </div>`;
 
@@ -48,7 +48,13 @@ class SensorChart extends HTMLElement {
 
             const temperature = filteredRows.map(row => row.c[2].v);
             const humidity = filteredRows.map(row => row.c[3].v);
-            const labels = filteredRows.map(row => row.c[1].f);
+            const isDay = this.period === 'Day';
+            const labels = filteredRows.map(row => {
+                const d = new Date(row.c[1].f);
+                return isDay
+                    ? d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })
+                    : d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+            });
 
             const ctx = this.querySelector('#sensorChart');
 
@@ -60,7 +66,12 @@ class SensorChart extends HTMLElement {
                 chart: {
                     type: 'line',
                     height: '100%',
+                    background: 'transparent',
+                    toolbar: { show: false },
                 },
+                theme: { mode: 'dark' },
+                colors: ['#f97316', '#38bdf8'],
+                stroke: { width: 2, curve: 'smooth' },
                 series: [
                     { name: 'Temp', data: temperature },
                     { name: 'Humidity', data: humidity }
@@ -68,13 +79,22 @@ class SensorChart extends HTMLElement {
                 xaxis: {
                     categories: labels,
                     tickAmount: 10,
+                    labels: { style: { colors: '#9ca3af' } },
                 },
                 yaxis: {
-                    min: -30
+                    min: -30,
+                    labels: { style: { colors: '#9ca3af' } },
                 },
-                labels: {
-                    rotate: -90
-                }
+                grid: {
+                    borderColor: 'rgba(255,255,255,0.06)',
+                    strokeDashArray: 4,
+                },
+                tooltip: {
+                    theme: 'dark',
+                },
+                legend: {
+                    labels: { colors: '#d1d5db' },
+                },
             });
 
             h2.style.display = 'block';

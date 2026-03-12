@@ -5,10 +5,10 @@ class RefreshButton extends HTMLElement {
         this.innerHTML = `
     <button
         type="button"
-        class="inline-flex items-center justify-center h-10 px-6
-               text-sm font-medium rounded-md
-               bg-emerald-600 text-white
-               hover:bg-emerald-500 cursor-pointer">
+        class="inline-flex items-center justify-center h-9 px-4
+               text-sm font-medium rounded-lg
+               bg-linear-to-r from-indigo-500 to-purple-500 text-white
+               hover:from-indigo-400 hover:to-purple-400 cursor-pointer transition-all duration-200 shadow-md shadow-indigo-500/20">
         <div class="inline-flex items-center gap-2 text-gray-300 loading-spinner">   
             <span class="h-5 w-5 animate-spin rounded-full border-2 border-white/20 border-t-white"></span>                       
         </div>

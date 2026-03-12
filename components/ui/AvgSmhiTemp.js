@@ -14,8 +14,16 @@ class AvgSmhiTemp extends HTMLElement {
 
         this.innerHTML = `
             <alert-box></alert-box>
-            <h2 class="text-white">Average SMHI Temperature</h2>
-            <div id="avgSmhiTemp"></div>
+            <div class="flex items-start justify-between">
+                <div>
+                    <p class="text-gray-400 text-xs uppercase tracking-wider">SMHI</p>
+                    <h2 class="text-white text-lg font-semibold mt-1">Average Temperature</h2>
+                    <div id="avgSmhiTemp"></div>
+                </div>
+                <div class="rounded-lg bg-purple-500/10 p-2.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-purple-400"><path d="M2 12h10"/><path d="M9 4v16"/><path d="m3 9 3 3-3 3"/><circle cx="18" cy="12" r="4"/></svg>
+                </div>
+            </div>
         `;
 
         await this.renderTemperature();
@@ -49,11 +57,11 @@ class AvgSmhiTemp extends HTMLElement {
 
 
             if (avgTemp.toFixed(2) < 0) {
-                this.querySelector('#avgSmhiTemp').innerHTML = `<p class="text-blue-500 text-lg mt-4">${avgTemp.toFixed(2)}°C</p>`;
+                this.querySelector('#avgSmhiTemp').innerHTML = `<p class="text-blue-500 text-3xl font-bold mt-3">${avgTemp.toFixed(2)}°C</p>`;
             } else if (avgTemp.toFixed(2) > 25) {
-                this.querySelector('#avgSmhiTemp').innerHTML = `<p class="text-red-500 text-lg mt-4">${avgTemp.toFixed(2)}°C</p>`;
+                this.querySelector('#avgSmhiTemp').innerHTML = `<p class="text-red-500 text-3xl font-bold mt-3">${avgTemp.toFixed(2)}°C</p>`;
             } else {
-                this.querySelector('#avgSmhiTemp').innerHTML = `<p class="text-green-300 text-lg mt-4">${avgTemp.toFixed(2)}°C</p>`;
+                this.querySelector('#avgSmhiTemp').innerHTML = `<p class="text-green-300 text-3xl font-bold mt-3">${avgTemp.toFixed(2)}°C</p>`;
             }
 
             h2.style.display = '';
