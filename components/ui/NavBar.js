@@ -3,17 +3,17 @@ class NavBar extends HTMLElement {
         const currentPath = window.location.pathname;
 
         const navLinks = [
-            { href: "/index.html", label: "Home" },
-            { href: "/dashBoard.html", label: "Dashboard" },
-            { href: "/docs.html", label: "Docs" },
+            { href: "./index.html", label: "Home" },
+            { href: "./dashBoard.html", label: "Dashboard" },
+            { href: "./docs.html", label: "Docs" },
         ];
 
-        const isHome = currentPath === "/" || currentPath.endsWith("/index.html");
+        const isHome = currentPath === "/" || currentPath.endsWith("/") || currentPath.endsWith("/index.html");
 
         const renderLink = (link) => {
-            const isActive = link.href === "/index.html"
+            const isActive = link.href === "./index.html"
                 ? isHome
-                : currentPath.endsWith(link.href);
+                : currentPath.endsWith(link.href.replace("./", "/"));
 
             return `<a href="${link.href}" class="rounded-md px-3 py-2 text-sm font-medium transition ${isActive
                 ? "bg-white/8 text-white"
@@ -21,9 +21,9 @@ class NavBar extends HTMLElement {
         };
 
         const renderMobileLink = (link) => {
-            const isActive = link.href === "/index.html"
+            const isActive = link.href === "./index.html"
                 ? isHome
-                : currentPath.endsWith(link.href);
+                : currentPath.endsWith(link.href.replace("./", "/"));
 
             return `<a href="${link.href}" class="block rounded-md px-4 py-3 text-sm font-medium transition ${isActive
                 ? "bg-white/8 text-white"
@@ -33,7 +33,7 @@ class NavBar extends HTMLElement {
         this.innerHTML = `
             <nav class="sticky top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
                 <div class="site-panel-strong mx-auto flex max-w-7xl items-center justify-between rounded-[18px] px-4 py-3 sm:px-5">
-                    <a href="/index.html" class="flex items-center gap-3 rounded-md px-1 py-1 text-white transition hover:bg-white/[0.03]">
+                    <a href="./index.html" class="flex items-center gap-3 rounded-md px-1 py-1 text-white transition hover:bg-white/[0.03]">
                         <span class="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-[var(--site-accent)]">
                             <svg xmlns="http://www.w3.org/2000/svg" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg>
                         </span>

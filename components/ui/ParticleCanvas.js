@@ -6,9 +6,9 @@ class ParticleCanvas extends HTMLElement {
         document.body.prepend(container);
 
         const script = document.createElement('script');
-        script.src = '/particles.js';
+        script.src = './particles.js';
         script.onload = () => {
-            window.particlesJS.load('particles-js', '/particles-config.json');
+            window.particlesJS.load('particles-js', './particles-config.json');
         };
         document.head.appendChild(script);
     }
