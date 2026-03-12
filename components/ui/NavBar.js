@@ -31,7 +31,8 @@ class NavBar extends HTMLElement {
         };
 
         this.innerHTML = `
-            <nav class="sticky top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
+            <div class="h-[5.75rem] sm:h-[6.25rem]"></div>
+            <nav class="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6 lg:px-8">
                 <div class="site-panel-strong mx-auto flex max-w-7xl items-center justify-between rounded-[18px] px-4 py-3 sm:px-5">
                     <a href="./index.html" class="flex items-center gap-3 rounded-md px-1 py-1 text-white transition hover:bg-white/[0.03]">
                         <span class="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] text-[var(--site-accent)]">
