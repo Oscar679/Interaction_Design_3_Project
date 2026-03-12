@@ -4,13 +4,13 @@ class Index extends HTMLElement {
             <main>
                 <section class="mx-auto max-w-7xl px-6 pb-10 pt-10 sm:pt-14">
                     <div class="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-stretch">
-                        <div class="site-panel-strong overflow-hidden rounded-[24px] p-8 sm:p-10">
-                            <div class="section-kicker">Campus Weather</div>
+                        <div class="site-panel-strong rounded-[24px] p-8 sm:p-10">
+                            <div class="section-kicker">Vaxjo campus</div>
                             <h1 class="mt-5 max-w-3xl text-5xl font-semibold tracking-[-0.05em] text-white sm:text-6xl lg:text-[4.2rem]">
-                                Compare sensor data from campus with SMHI station data.
+                                Sensor readings from campus next to SMHI station data.
                             </h1>
                             <p class="mt-6 max-w-2xl text-base leading-8 text-slate-300 sm:text-lg">
-                                This site shows the local campus readings next to official weather station data, with a dashboard for the live comparison and a docs page for the code behind it.
+                                Built for comparing the campus sensor with the official weather station and for showing how the app is structured.
                             </p>
 
                             <div class="mt-10 flex flex-wrap gap-3">
@@ -24,13 +24,10 @@ class Index extends HTMLElement {
                         </div>
 
                         <div class="grid gap-6">
-                            <div class="site-panel overflow-hidden rounded-[22px] p-6 sm:p-7">
-                                <div>
-                                    <p class="section-kicker">Dashboard</p>
-                                    <h2 class="mt-3 text-2xl font-semibold text-white">View the data</h2>
-                                </div>
+                            <div class="site-panel rounded-[22px] p-6 sm:p-7">
+                                <h2 class="text-2xl font-semibold text-white">Dashboard</h2>
                                 <p class="mt-4 text-sm leading-7 text-slate-300">
-                                    Switch between day and month, compare the averages, and look at the two charts side by side.
+                                    Day and month views, average temperature cards, and both charts in one place.
                                 </p>
                                 <div class="mt-6 grid gap-3">
                                     <div class="rounded-[16px] border border-white/10 bg-black/10 p-4">
@@ -49,16 +46,10 @@ class Index extends HTMLElement {
                             </div>
 
                             <div class="site-panel rounded-[22px] p-6 sm:p-7">
-                                <p class="section-kicker">Documentation</p>
-                                <h2 class="mt-3 text-2xl font-semibold text-white">Read the code structure</h2>
+                                <h2 class="text-2xl font-semibold text-white">Documentation</h2>
                                 <p class="mt-4 text-sm leading-7 text-slate-300">
-                                    The docs page explains the service classes, the chart components, and the observable that connects them.
+                                    Short notes on the services, chart components, and the observable used in the app.
                                 </p>
-                                <div class="mt-6 flex flex-wrap gap-2">
-                                    <span class="rounded-md border border-white/10 px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-slate-300">Services</span>
-                                    <span class="rounded-md border border-white/10 px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-slate-300">Charts</span>
-                                    <span class="rounded-md border border-white/10 px-3 py-1.5 text-xs uppercase tracking-[0.12em] text-slate-300">Observer</span>
-                                </div>
                             </div>
                         </div>
                     </div>

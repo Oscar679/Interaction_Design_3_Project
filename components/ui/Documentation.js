@@ -12,18 +12,12 @@ class DocumentationPage extends HTMLElement {
                 <section class="mx-auto max-w-7xl px-6 pb-6 pt-10 sm:pt-14">
                     <div class="site-panel-strong overflow-hidden rounded-[24px] p-8 sm:p-10">
                         <div class="max-w-4xl">
-                            <p class="section-kicker">Documentation</p>
                             <h1 class="mt-5 text-4xl font-semibold tracking-[-0.04em] text-white sm:text-5xl">
-                                Notes on how the app is put together.
+                                How the app is put together.
                             </h1>
                             <p class="mt-5 max-w-3xl text-base leading-8 text-slate-300">
-                                This page gives a short overview of the main classes used in the project: the service layer, the chart components, and the observable that keeps the dashboard in sync.
+                                Short notes on the main classes in the project: the services, the chart components, and the observable used by the dashboard.
                             </p>
-                            <div class="mt-8 flex flex-wrap gap-2 text-sm text-slate-300">
-                                <span class="rounded-md border border-white/10 bg-white/[0.03] px-3 py-1.5">Services</span>
-                                <span class="rounded-md border border-white/10 bg-white/[0.03] px-3 py-1.5">Charts</span>
-                                <span class="rounded-md border border-white/10 bg-white/[0.03] px-3 py-1.5">Observable</span>
-                            </div>
                         </div>
                     </div>
                 </section>

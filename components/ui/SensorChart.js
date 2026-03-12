@@ -18,11 +18,8 @@ class SensorChart extends HTMLElement {
             <alert-box></alert-box>
             <div class="relative min-w-0 overflow-hidden">
                 <div class="mb-6 border-b border-white/8 pb-5">
-                    <div>
-                        <p class="section-kicker">Sensor chart</p>
-                        <h2 class="mt-3 text-2xl font-semibold text-white">Campus readings</h2>
-                        <p class="mt-2 text-sm leading-7 text-slate-400">Temperature and humidity from the local sensor feed.</p>
-                    </div>
+                    <h2 class="text-2xl font-semibold text-white">Campus readings</h2>
+                    <p class="mt-2 text-sm leading-7 text-slate-400">Temperature and humidity from the campus sensor.</p>
                 </div>
                 <div id="sensorChart" class="min-h-[20rem] w-full min-w-0 overflow-hidden"></div>
             </div>

@@ -39,7 +39,7 @@ class NavBar extends HTMLElement {
                         </span>
                         <span>
                             <span class="block text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">Campus Weather</span>
-                            <span class="block text-sm font-medium text-slate-100">Sensor and SMHI data</span>
+                            <span class="block text-sm font-medium text-slate-100">Vaxjo campus</span>
                         </span>
                     </a>
 

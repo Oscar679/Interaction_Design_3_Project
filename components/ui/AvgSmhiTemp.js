@@ -16,12 +16,11 @@ class AvgSmhiTemp extends HTMLElement {
             <alert-box></alert-box>
             <div class="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
                 <div>
-                    <p class="section-kicker">SMHI station</p>
-                    <h2 class="mt-3 text-2xl font-semibold text-white">Average temperature</h2>
-                    <p class="mt-2 text-sm leading-7 text-slate-400">Official readings mapped to the selected dashboard range.</p>
-                    <div id="avgSmhiTemp" class="mt-6"></div>
+                    <h2 class="text-2xl font-semibold text-white">SMHI station</h2>
+                    <p class="mt-2 text-sm leading-7 text-slate-400">Average temperature for the selected period.</p>
+                    <div id="avgSmhiTemp" class="mt-5"></div>
                 </div>
-                <div class="flex h-14 w-14 items-center justify-center rounded-[20px] border border-white/10 bg-white/[0.04] text-[var(--site-accent-warm)]">
+                <div class="flex h-12 w-12 items-center justify-center rounded-[14px] border border-white/10 bg-white/[0.03] text-[var(--site-accent-warm)]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h10"/><path d="M9 4v16"/><path d="m3 9 3 3-3 3"/><circle cx="18" cy="12" r="4"/></svg>
                 </div>
             </div>

@@ -45,6 +45,11 @@ body.docs-page {
     color: #f7fbfa;
 }
 
+.active:hover {
+    background: rgba(255, 255, 255, 0.14);
+    box-shadow: inset 0 0 0 999px rgba(255, 255, 255, 0.02);
+}
+
 .site-shell {
     position: relative;
 }
