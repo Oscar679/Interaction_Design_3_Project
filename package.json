@@ -20,9 +20,7 @@
   "description": "",
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
-    "@tailwindplus/elements": "^1.0.22",
     "apexcharts": "^5.3.6",
-    "lucide": "^0.575.0",
     "prismjs": "^1.30.0",
     "tailwindcss": "^4.1.18"
   },
