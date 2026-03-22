@@ -17,7 +17,7 @@
     <documentation-page>
         <docs-section>
             <h2>Abstract Service Class</h2>
-            <div>The base class for all data services in the application. This abstract class cannot be instantiated directly and defines the contract that all service implementations must follow. It enforces the implementation of the fetchData() method, ensuring a consistent interface for data retrieval across different data sources.</div>
+            <div>Base class that the other services extend. Can't be instantiated on its own — if you try, it throws an error. Any subclass needs to implement fetchData() or it'll throw as well.</div>
             <template>
 class Service {
     constructor() {
@@ -37,7 +37,7 @@ export default Service;
 
         <docs-section>
             <h2>SheetService Class</h2>
-            <div>Extends the abstract Service class to fetch sensor data from a published Google Spreadsheet using the Visualization API. Parses the raw JSONP response and returns structured data containing temperature and humidity readings from the campus sensor.</div>
+            <div>Fetches sensor data from a published Google Spreadsheet. The response comes back as JSONP, so it strips the wrapper and parses out the temperature and humidity rows.</div>
             <template>
 import Service from "./AbstractService"
 
@@ -72,7 +72,7 @@ export default SheetService;
 
         <docs-section>
             <h2>SMHIService Class</h2>
-            <div>Extends the abstract Service class to fetch official weather data from the SMHI Open Data API. Configurable with a measurement parameter, weather station ID, and time period. Used to retrieve temperature and humidity data for comparison with local sensor readings.</div>
+            <div>Fetches weather data from the SMHI Open Data API. Takes a parameter (temperature or humidity), station ID, and time period. Used to pull official data to compare against the campus sensor.</div>
             <template>
 import Service from "./AbstractService";
 
@@ -105,7 +105,7 @@ export default SMHIService;
 
         <docs-section>
             <h2>SensorChart Class</h2>
-            <div>A Web Component that subscribes to the Observable and renders a live line chart using ApexCharts, displaying temperature and humidity readings from the campus sensor. The SheetService is instantiated once in connectedCallback and reused across renders. The selected time period is persisted via LocalStorage and restored on load.</div>
+            <div>Web Component that renders the campus sensor chart with ApexCharts. Subscribes to the Observable so it updates when the user switches between Day/Month. The selected period is saved in localStorage and restored on load.</div>
             <template>
 class SensorChart extends HTMLElement {
     async connectedCallback() {
@@ -145,7 +145,7 @@ customElements.define("sensor-chart", SensorChart);
 
         <docs-section>
             <h2>SMHIChart Class</h2>
-            <div>A Web Component that fetches and charts official temperature and humidity data from the SMHI Open Data API. Uses a periodMap defined once in connectedCallback to translate UI period labels (Day, Month) into SMHI API period strings. Subscribes to the Observable to respond to period changes.</div>
+            <div>Same idea as SensorChart but for the SMHI data. Uses a periodMap to translate "Day"/"Month" into the API's period strings (latest-day, latest-months). Also subscribes to the Observable for period changes.</div>
             <template>
 class SMHIChart extends HTMLElement {
     async connectedCallback() {
@@ -187,7 +187,7 @@ customElements.define("smhi-chart", SMHIChart);
 
         <docs-section>
             <h2>Observable Class</h2>
-            <div>Implements both the Singleton and Observer design patterns. As a Singleton, only one instance exists across the application. As an Observable, it maintains a list of subscribed chart components and notifies them when the selected time period changes, or triggers a refresh of all charts simultaneously.</div>
+            <div>Central piece that ties the charts together. Only one instance exists (Singleton), and charts subscribe to it. When the user picks a new period or hits refresh, it loops through all subscribers and tells them to update.</div>
             <template>
 class Observable {
     static instance;

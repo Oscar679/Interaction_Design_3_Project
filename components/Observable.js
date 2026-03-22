@@ -1,4 +1,3 @@
-// Implements Singleton design pattern, Implements Observer design pattern
 class Observable {
     static instance;
 
