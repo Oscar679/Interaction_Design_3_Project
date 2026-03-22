@@ -6,7 +6,7 @@ export default [
             "dist/**",
             "dev-dist/**",
             "node_modules/**",
-            "public/particles.js",
+
         ],
     },
     {
